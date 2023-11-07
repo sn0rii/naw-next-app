@@ -1,5 +1,17 @@
-import Image from "next/image";
+import { options } from "./api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth/next";
+import UserCard from "./components/UserCard";
 
-export default function Home() {
-  return <main>Hello World</main>;
+export default async function ServerPage() {
+  const session = await getServerSession(options);
+
+  return (
+    <>
+      {session ? (
+        <UserCard user={session?.user} pagetype={"Home"} />
+      ) : (
+        <h1 className="text-5xl">You Shall Not Pass</h1>
+      )}
+    </>
+  );
 }
